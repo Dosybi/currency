@@ -258,8 +258,7 @@ btnGet.addEventListener('click', function (e) {
       return response.json()
     })
     .then(function (data) {
-      console.log(data[currShorts[currTo]])
-      res.textContent = (input.value * data[currShorts[currTo]]).toFixed(3)
+      res.textContent = (input.value * data[currShorts[currTo]]).toFixed(2)
       res2.textContent = `1 ${currShorts[currFrom]} = ${
         data[currShorts[currTo]]
       } ${currShorts[currTo]}`
@@ -273,9 +272,19 @@ btnGet.addEventListener('click', function (e) {
       return response.json()
     })
     .then(function (data) {
-      yesterdayMsg.textContent = `Yesterday 1 ${
-        currFullNames[currFrom]
-      } costed ${data[currShorts[currTo]]} ${currFullNames[currTo]}s`
+      let arrow = ''
+      if (
+        +res2.textContent.split('').slice(8, -4).join('') -
+          data[currShorts[currTo]] >
+        0
+      ) {
+        res2.classList.add('green')
+        res2.classList.remove('red')
+      } else {
+        res2.classList.add('red')
+        res2.classList.remove('green')
+      }
+
       console.log(
         `Yesterday 1 ${currFullNames[currFrom]} costed ${
           data[currShorts[currTo]]
@@ -291,32 +300,3 @@ icon.addEventListener('click', function (e) {
   selectCurrencies2.value = selected1
   currTo = currFullNames.indexOf(selected1)
 })
-
-// const getCurrenciesList = async function () {
-//   try {
-//     const res = await fetch(
-//       'https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies.json'
-//     )
-//     const data = await res.json()
-//     const currenciesList = Object.values(data)
-//     currenciesList.forEach((curr) => {
-//       let option = document.createElement('option')
-//       option.innerHTML = curr
-//       selectCurrencies1.insertAdjacentElement('beforeend', option)
-//       selectCurrencies2.insertAdjacentElement('beforeend', option)
-//     })
-//   } catch (err) {
-//     alert(err)
-//   }
-// }
-// getCurrenciesList()
-
-// selectCurrencies1.addEventListener('change', function (e) {
-//   currFrom = this.value
-//   console.log(currFrom)
-// })
-
-// selectCurrencies2.addEventListener('change', function (e) {
-//   currTo = this.value
-//   console.log(currTo)
-// })
